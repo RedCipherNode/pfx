@@ -1,7 +1,5 @@
-#include <fstream>
 #include <iostream>
 #include <string>
-#include <filesystem>
 
 #include <pfx/engine.hpp>
 
@@ -11,51 +9,90 @@ int main(int argc, char *argv[])
     {
         std::cout << "Usage:\n";
         std::cout << "    pfx <plaintext>\n";
-        std::cout << "    pfx <plaintext> --save\n";
-        std::cout << "    pfx <plaintext> --save <file>\n";
+        std::cout << "    pfx <plaintext> --compat\n";
+        std::cout << "    pfx <plaintext> --std\n";
+        std::cout << "    pfx <plaintext> --max\n";
         return 1;
     }
 
-    bool save = false;
-    std::string output = "tests/output.txt";
+    enum class Profile
+    {
+        All,
+        Compatibility,
+        Standard,
+        Maximum
+    };
+
+    auto result = pfx::transform(argv[1]);
+    Profile profile =
+        Profile::All;
 
     if (argc >= 3)
     {
-        if (std::string_view(argv[2]) == "--save")
-        {
-            save = true;
+        std::string_view arg =
+            argv[2];
 
-            if (argc >= 4)
-            {
-                output = argv[3];
-            }
+        if (arg == "--compat")
+        {
+            profile =
+                Profile::Compatibility;
+        }
+        else if (arg == "--std")
+        {
+            profile =
+                Profile::Standard;
+        }
+        else if (arg == "--max")
+        {
+            profile =
+                Profile::Maximum;
         }
     }
 
-    auto result = pfx::transform(argv[1]);
-    std::filesystem::create_directories("tests");
-
-    bool new_file =
-        !std::filesystem::exists("tests/result.csv");
-
-    std::ofstream csv(
-        "tests/result.csv",
-        std::ios::app);
-    std::cout << "\n";
-    std::cout << "Compatibility : " << result.compatibility << '\n';
-    std::cout << "Standard      : " << result.standard << '\n';
-    std::cout << "Maximum       : " << result.maximum << '\n';
-
-    if (save)
+    switch (profile)
     {
-        std::ofstream file(output, std::ios::app);
+    case Profile::All:
 
-        file << "========================================\n";
-        file << "Input         : " << argv[1] << '\n';
-        file << "Compatibility : " << result.compatibility << '\n';
-        file << "Standard      : " << result.standard << '\n';
-        file << "Maximum       : " << result.maximum << '\n';
-        file << '\n';
+        std::cout
+            << "\nCompatibility : "
+            << result.compatibility
+            << '\n';
+
+        std::cout
+            << "Standard      : "
+            << result.standard
+            << '\n';
+
+        std::cout
+            << "Maximum       : "
+            << result.maximum
+            << '\n';
+
+        break;
+
+    case Profile::Compatibility:
+
+        std::cout
+            << result.compatibility
+            << '\n';
+
+        break;
+
+    case Profile::Standard:
+
+        std::cout
+            << result.standard
+            << '\n';
+
+        break;
+
+    case Profile::Maximum:
+
+        std::cout
+            << result.maximum
+            << '\n';
+
+        break;
     }
 
     return 0;

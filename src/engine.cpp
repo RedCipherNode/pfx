@@ -316,9 +316,6 @@ pfx::Result pfx::transform(std::string_view plaintext)
         hash,
         schedule);
 
-    print_policy(
-        validate_policy(compatibility));
-
     return {
         compatibility,
         standard,
