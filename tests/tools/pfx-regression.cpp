@@ -2,13 +2,14 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include "regression.hpp"
 
 #include <pfx/engine.hpp>
 
 int main()
 {
     std::ifstream input(
-        "tests/data/v1/input.csv");
+        "tests/data/deterministic/input.csv");
 
     if (!input)
     {
@@ -18,13 +19,13 @@ int main()
         return 1;
     }
 
-    std::ofstream golden(
-        "tests/data/v1/golden.csv");
+    std::ofstream generated(
+        pfx::regression::create_filename());
 
-    if (!golden)
+    if (!generated)
     {
         std::cerr
-            << "Failed to create golden.csv\n";
+            << "Failed to create generated.csv\n";
 
         return 1;
     }
@@ -36,7 +37,7 @@ int main()
         input,
         line);
 
-    golden
+    generated
         << "Category,"
         << "Input,"
         << "Compatibility,"
@@ -64,7 +65,7 @@ int main()
         auto result =
             pfx::transform(plaintext);
 
-        golden
+        generated
             << category
             << ','
             << plaintext
@@ -80,7 +81,7 @@ int main()
     }
 
     std::cout
-        << "Golden dataset generated.\n";
+        << "Regression dataset generated.\n";
 
     std::cout
         << "Cases : "
@@ -88,7 +89,7 @@ int main()
         << '\n';
 
     std::cout
-        << "Output: tests/data/v1/golden.csv\n";
+        << "Output: tests/data/v1.x/regression/generated.csv\n";
 
     return 0;
 }

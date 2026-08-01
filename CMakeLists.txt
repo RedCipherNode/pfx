@@ -30,7 +30,7 @@ target_link_libraries(
     argon2
 )
 
-# CLI
+# Applications
 add_executable(
     pfx
     src/main.cpp
@@ -42,14 +42,48 @@ target_link_libraries(
     pfx_engine
 )
 
-# Regression Tool
+# Regression Tools
 add_executable(
     pfx-regression
-    tests/regression/pfx-regression.cpp
+    tests/tools/pfx-regression.cpp
+    tests/tools/regression.cpp
 )
 
 target_link_libraries(
     pfx-regression
+    PRIVATE
+    pfx_engine
+)
+
+add_executable(
+    pfx-verify
+    tests/tools/pfx-verify.cpp
+)
+
+target_link_libraries(
+    pfx-verify
+    PRIVATE
+    pfx_engine
+)
+
+add_executable(
+    pfx-diff
+    tests/tools/pfx-diff.cpp
+)
+
+target_link_libraries(
+    pfx-diff
+    PRIVATE
+    pfx_engine
+)
+
+add_executable(
+    pfx-analysis
+    tests/tools/pfx-analysis.cpp
+)
+
+target_link_libraries(
+    pfx-analysis
     PRIVATE
     pfx_engine
 )

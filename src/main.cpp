@@ -1,8 +1,8 @@
-#include <iostream>
-#include <string>
-
 #include <pfx/engine.hpp>
 #include <pfx/clipboard.hpp>
+
+#include <iostream>
+#include <string>
 
 void print_and_copy(
     std::string_view password,

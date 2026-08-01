@@ -1,9 +1,10 @@
+#include <pfx/engine.hpp>
+
 #include <array>
 #include <string_view>
 #include <argon2.h>
 #include <algorithm>
 #include <cctype>
-#include <pfx/engine.hpp>
 #include <iostream>
 #include <vector>
 
