@@ -38,6 +38,7 @@ int main()
         line);
 
     generated
+        << "Id,"
         << "Category,"
         << "Input,"
         << "Compatibility,"
@@ -50,8 +51,14 @@ int main()
     {
         std::stringstream stream(line);
 
+        std::string id;
         std::string category;
         std::string plaintext;
+
+        std::getline(
+            stream,
+            id,
+            ',');
 
         std::getline(
             stream,
@@ -62,10 +69,19 @@ int main()
             stream,
             plaintext);
 
+        if (id.empty() ||
+            category.empty() ||
+            plaintext.empty())
+        {
+            continue;
+        }
+
         auto result =
             pfx::transform(plaintext);
 
         generated
+            << id
+            << ','
             << category
             << ','
             << plaintext

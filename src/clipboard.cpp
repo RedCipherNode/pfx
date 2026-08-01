@@ -1,7 +1,6 @@
 #include <pfx/clipboard.hpp>
 
 #include <windows.h>
-
 #include <cstring>
 
 namespace pfx::clipboard
