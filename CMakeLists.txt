@@ -11,6 +11,7 @@ add_executable(
     pfx
     src/main.cpp
     src/engine.cpp
+    src/clipboard.cpp
 )
 
 target_link_libraries(

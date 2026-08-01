@@ -2,6 +2,32 @@
 #include <string>
 
 #include <pfx/engine.hpp>
+#include <pfx/clipboard.hpp>
+
+void print_and_copy(
+    std::string_view password,
+    bool copy)
+{
+    std::cout
+        << password
+        << '\n';
+
+    if (!copy)
+    {
+        return;
+    }
+
+    if (pfx::clipboard::copy(password))
+    {
+        std::cout
+            << "Copied to clipboard.\n";
+    }
+    else
+    {
+        std::cout
+            << "Failed to copy to clipboard.\n";
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -26,26 +52,27 @@ int main(int argc, char *argv[])
     auto result = pfx::transform(argv[1]);
     Profile profile =
         Profile::All;
+    bool copy = false;
 
-    if (argc >= 3)
+    for (int i = 2; i < argc; ++i)
     {
-        std::string_view arg =
-            argv[2];
+        std::string_view arg = argv[i];
 
         if (arg == "--compat")
         {
-            profile =
-                Profile::Compatibility;
+            profile = Profile::Compatibility;
         }
         else if (arg == "--std")
         {
-            profile =
-                Profile::Standard;
+            profile = Profile::Standard;
         }
         else if (arg == "--max")
         {
-            profile =
-                Profile::Maximum;
+            profile = Profile::Maximum;
+        }
+        else if (arg == "--copy")
+        {
+            copy = true;
         }
     }
 
@@ -68,29 +95,35 @@ int main(int argc, char *argv[])
             << result.maximum
             << '\n';
 
+        if (copy)
+        {
+            std::cout
+                << "\nPlease specify a profile when using --copy.\n";
+        }
+
         break;
 
     case Profile::Compatibility:
 
-        std::cout
-            << result.compatibility
-            << '\n';
+        print_and_copy(
+            result.compatibility,
+            copy);
 
         break;
 
     case Profile::Standard:
 
-        std::cout
-            << result.standard
-            << '\n';
+        print_and_copy(
+            result.standard,
+            copy);
 
         break;
 
     case Profile::Maximum:
 
-        std::cout
-            << result.maximum
-            << '\n';
+        print_and_copy(
+            result.maximum,
+            copy);
 
         break;
     }
