@@ -1,5 +1,6 @@
 # Build
 build/
+build-release/
 out/
 bin/
 
@@ -35,7 +36,7 @@ CMakeUserPresets.json
 *.exp
 *.lib
 
-# Runtime (opsional)
+# Runtime (optional)
 *.exe
 *.dll
 
