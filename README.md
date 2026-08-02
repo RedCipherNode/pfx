@@ -1,30 +1,50 @@
+
+
+<table>
+<tr>
+<td align="center" width="50%">
+
+### GUI
+
+<img src="docs/images/gui.png" alt="PFX Desktop">
+
+</td>
+
+<td align="center" width="50%">
+
+### Command Line
+
+<img src="docs/images/cli.gif" alt="PFX CLI">
+
+</td>
+</tr>
+</table>
+
+---
+
 # PFX
 
 PFX is a deterministic password transformation engine written in C++.
 
-Instead of generating random passwords, PFX derives deterministic, high-entropy passwords from memorable plaintext using Argon2id and a deterministic formatting pipeline.
+Instead of generating random passwords, PFX transforms a memorable plaintext into a strong, deterministic password using Argon2id and a deterministic transformation pipeline.
+
 
 ## Features
 
 - Deterministic password transformation
 - Argon2id-based key derivation
-- Multiple output profiles
+- Three password profiles
   - Compatibility
   - Standard
   - Maximum
-- Password policy validation
-- Deterministic policy repair
+- Deterministic password policy repair
+- Native desktop application
+- Native command-line interface
 - Clipboard support
 - Deterministic regression testing
 - Modern CMake project
 
-## Status
-
-> Active development.
-
-The core transformation engine is complete.
-
-Current development focuses on tooling, documentation, and user experience.
+```
 
 ## Build
 
@@ -33,19 +53,38 @@ cmake -B build
 cmake --build build
 ```
 
+Release build
+
+```bash
+cmake -B build-release
+cmake --build build-release --config Release
+```
+
+---
+
 ## Usage
+
+### Desktop
+
+Run:
+
+```text
+pfx-gui.exe
+```
+
+### CLI
 
 ```bash
 pfx <plaintext>
 ```
 
-Example:
+Example
 
 ```bash
 pfx bebek_ganteng
 ```
 
-Output:
+Output
 
 ```text
 Compatibility : ****************
@@ -53,31 +92,67 @@ Standard      : ************************
 Maximum       : ********************************
 ```
 
-Copy the generated password to the clipboard.
+Copy a generated password
 
 ```bash
-pfx bebek_ganteng --copy
+pfx bebek_ganteng --std --copy
 ```
 
-## Regression Testing
+---
 
-PFX includes a deterministic regression suite to ensure identical input always produces identical output within the same major algorithm version.
+## Recommendation
 
-For dataset structure and contribution guidelines, see:
+Choose a memorable plaintext that is easy to reproduce.
+
+Examples:
 
 ```text
-tests/data/NOTES.md
+github_main
+github-main
+my_bank_2026
+laptop-login
 ```
 
-## Roadmap
+Spaces are fully supported.
 
-- [x] Core transformation engine
-- [x] Clipboard support
-- [x] Regression testing
-- [ ] CLI improvements
-- [ ] Documentation
-- [ ] Web interface
+However, separators such as `_` and `-` are generally easier to reproduce consistently than whitespace.
+
+---
+
+## Documentation
+
+- [Algorithm](docs/ALGORITHM.md)
+- [Architecture](docs/ARCHITECTURE.md)
+
+---
+
+## Status
+
+> Active development.
+
+Current milestones:
+
+- ✅ Core transformation engine
+- ✅ Native CLI
+- ✅ Native desktop GUI
+- ✅ Clipboard support
+- ✅ Regression testing
+
+Next milestone:
+
+- Web application
+
+---
+
+## Third-Party Libraries
+
+PFX uses the following open source libraries.
+
+- Argon2
+- FLTK
+
+---
 
 ## License
 
-MIT License
+MIT License.
