@@ -35,6 +35,9 @@ target_link_libraries(
 add_executable(
     pfx
     apps/cli/main.cpp
+    apps/cli/cli.cpp
+    apps/cli/commands.cpp
+    apps/cli/console.cpp
 )
 
 target_link_libraries(
