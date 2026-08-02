@@ -10,8 +10,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(third_party/argon2)
+add_subdirectory(third_party/fltk)
 
-# Engine Library
+# Engine
 add_library(
     pfx_engine
     src/engine.cpp
@@ -30,10 +31,10 @@ target_link_libraries(
     argon2
 )
 
-# Applications
+# CLI
 add_executable(
     pfx
-    src/main.cpp
+    apps/cli/main.cpp
 )
 
 target_link_libraries(
@@ -42,17 +43,26 @@ target_link_libraries(
     pfx_engine
 )
 
-# Regression Tools
+# GUI
+add_executable(
+    pfx-gui
+    apps/gui/main.cpp
+    apps/gui/window.cpp
+    app.rc
+)
+
+target_link_libraries(
+    pfx-gui
+    PRIVATE
+    pfx_engine
+    fltk
+)
+
+# Tools
 add_executable(
     pfx-regression
     tests/tools/pfx-regression.cpp
     tests/tools/regression.cpp
-)
-
-target_link_libraries(
-    pfx-regression
-    PRIVATE
-    pfx_engine
 )
 
 add_executable(
@@ -60,26 +70,32 @@ add_executable(
     tests/tools/pfx-verify.cpp
 )
 
+add_executable(
+    pfx-diff
+    tests/tools/pfx-diff.cpp
+)
+
+add_executable(
+    pfx-analysis
+    tests/tools/pfx-analysis.cpp
+)
+
+target_link_libraries(
+    pfx-regression
+    PRIVATE
+    pfx_engine
+)
+
 target_link_libraries(
     pfx-verify
     PRIVATE
     pfx_engine
 )
 
-add_executable(
-    pfx-diff
-    tests/tools/pfx-diff.cpp
-)
-
 target_link_libraries(
     pfx-diff
     PRIVATE
     pfx_engine
-)
-
-add_executable(
-    pfx-analysis
-    tests/tools/pfx-analysis.cpp
 )
 
 target_link_libraries(

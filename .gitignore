@@ -1,15 +1,17 @@
+# Build
 build/
 out/
 bin/
 
-CMakeUserPresets.json
+# CMake
 CMakeCache.txt
+CMakeFiles/
 cmake_install.cmake
 compile_commands.json
 install_manifest.txt
+CMakeUserPresets.json
 
-CMakeFiles/
-
+# Visual Studio
 .vs/
 
 *.VC.db
@@ -20,24 +22,31 @@ CMakeFiles/
 *.userosscache
 *.sln.docstates
 
-*.ilk
+# Compiler
+*.obj
+*.pch
 *.idb
 *.ipdb
 *.iobj
-*.obj
-*.pch
+*.ilk
 *.pdb
 
+# Linker
+*.exp
+*.lib
+
+# Runtime (opsional)
 *.exe
 *.dll
-*.lib
-*.exp
 
+# Logs
 *.log
 
+# OS
 .DS_Store
 Thumbs.db
 
+# VS Code (user-specific)
 .vscode/settings.json
 .vscode/tasks.json
 .vscode/launch.json
