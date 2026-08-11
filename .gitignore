@@ -36,7 +36,7 @@ CMakeUserPresets.json
 *.exp
 *.lib
 
-# Runtime (optional)
+# Runtime
 *.exe
 *.dll
 
@@ -47,7 +47,10 @@ CMakeUserPresets.json
 .DS_Store
 Thumbs.db
 
-# VS Code (user-specific)
+# VS Code
 .vscode/settings.json
 .vscode/tasks.json
 .vscode/launch.json
+
+# output test
+tests/data/v1.x/bug/*.html
