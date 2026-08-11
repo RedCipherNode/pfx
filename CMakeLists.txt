@@ -71,16 +71,19 @@ add_executable(
 add_executable(
     pfx-verify
     tests/tools/pfx-verify.cpp
+    tests/tools/regression.cpp
 )
 
 add_executable(
     pfx-diff
     tests/tools/pfx-diff.cpp
+    tests/tools/regression.cpp
 )
 
 add_executable(
     pfx-analysis
     tests/tools/pfx-analysis.cpp
+    tests/tools/regression.cpp
 )
 
 target_link_libraries(

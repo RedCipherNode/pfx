@@ -1,111 +1,39 @@
-#include <fstream>
 #include <iostream>
-#include <sstream>
-#include <string>
-#include "regression.hpp"
+#include <stdexcept>
 
-#include <pfx/engine.hpp>
+#include "regression.hpp"
 
 int main()
 {
-    std::ifstream input(
-        "tests/data/deterministic/input.csv");
-
-    if (!input)
+    try
     {
-        std::cerr
-            << "Failed to open input.csv\n";
+        const auto run =
+            pfx::regression::run_current();
 
-        return 1;
-    }
+        const auto path =
+            pfx::regression::save(run);
 
-    std::ofstream generated(
-        pfx::regression::create_filename());
+        std::cout
+            << "Regression dataset generated.\n";
 
-    if (!generated)
-    {
-        std::cerr
-            << "Failed to create generated.csv\n";
-
-        return 1;
-    }
-
-    std::string line;
-
-    // Skip Header
-    std::getline(
-        input,
-        line);
-
-    generated
-        << "Id,"
-        << "Category,"
-        << "Input,"
-        << "Compatibility,"
-        << "Standard,"
-        << "Maximum\n";
-
-    size_t total = 0;
-
-    while (std::getline(input, line))
-    {
-        std::stringstream stream(line);
-
-        std::string id;
-        std::string category;
-        std::string plaintext;
-
-        std::getline(
-            stream,
-            id,
-            ',');
-
-        std::getline(
-            stream,
-            category,
-            ',');
-
-        std::getline(
-            stream,
-            plaintext);
-
-        if (id.empty() ||
-            category.empty() ||
-            plaintext.empty())
-        {
-            continue;
-        }
-
-        auto result =
-            pfx::transform(plaintext);
-
-        generated
-            << id
-            << ','
-            << category
-            << ','
-            << plaintext
-            << ','
-            << result.compatibility
-            << ','
-            << result.standard
-            << ','
-            << result.maximum
+        std::cout
+            << "Cases : "
+            << run.cases.size()
             << '\n';
 
-        ++total;
+        std::cout
+            << "Output: "
+            << path
+            << '\n';
+
+        return 0;
     }
+    catch (const std::exception &error)
+    {
+        std::cerr
+            << error.what()
+            << '\n';
 
-    std::cout
-        << "Regression dataset generated.\n";
-
-    std::cout
-        << "Cases : "
-        << total
-        << '\n';
-
-    std::cout
-        << "Output: tests/data/v1.x/regression/generated.csv\n";
-
-    return 0;
+        return 1;
+    }
 }
