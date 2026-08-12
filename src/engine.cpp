@@ -295,13 +295,13 @@ pfx::Result pfx::transform(std::string_view plaintext)
     auto schedule = build_schedule(hash);
 
     auto compatibility =
-        format(hash, schedule, 32);
+        format(hash, schedule, 16);
 
     auto standard =
-        format(hash, schedule, 32);
+        format(hash, schedule, 16);
 
     auto maximum =
-        format(hash, schedule, 32);
+        format(hash, schedule, 16);
 
     apply_policy(
         compatibility,
