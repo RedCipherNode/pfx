@@ -294,29 +294,26 @@ pfx::Result pfx::transform(std::string_view plaintext)
 
     auto schedule = build_schedule(hash);
 
+    // Generate the full deterministic base from Argon2id/hash.
+    auto base =
+        format(hash, schedule, 32);
+
+    // Compatibility is the canonical policy-valid core.
     auto compatibility =
-        format(hash, schedule, 16);
-
-    auto standard =
-        format(hash, schedule, 16);
-
-    auto maximum =
-        format(hash, schedule, 16);
+        base.substr(0, 16);
 
     apply_policy(
         compatibility,
         hash,
         schedule);
 
-    apply_policy(
-        standard,
-        hash,
-        schedule);
+    // Extend the repaired 16-char core using
+    // deterministic characters from the same hash/schedule.
+    auto standard =
+        compatibility + base.substr(16, 8);
 
-    apply_policy(
-        maximum,
-        hash,
-        schedule);
+    auto maximum =
+        compatibility + base.substr(16, 16);
 
     return {
         compatibility,
